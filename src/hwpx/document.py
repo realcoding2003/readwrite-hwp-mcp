@@ -38,6 +38,20 @@ class Paragraph:
 
 
 @dataclass
+class Image:
+    """Image in document."""
+
+    id: str
+    file_path: str  # Source file path
+    binary_id: str = ""  # ID for BinData reference (e.g., "image1")
+    width: int = 0  # Display width in HWPML units
+    height: int = 0  # Display height in HWPML units
+    original_width: int = 0  # Original image width
+    original_height: int = 0  # Original image height
+    media_type: str = ""  # e.g., "image/png", "image/jpeg"
+
+
+@dataclass
 class TableCell:
     """Table cell."""
 
@@ -94,6 +108,7 @@ class Section:
     id: str
     paragraphs: list[Paragraph] = field(default_factory=list)
     tables: list[Table] = field(default_factory=list)
+    images: list[Image] = field(default_factory=list)
 
 
 @dataclass
@@ -183,6 +198,71 @@ class HwpxDocument:
         section.tables.append(table)
         self._modified = True
         return table
+
+    def insert_image(self, file_path: str, width: int = 0, height: int = 0) -> Image | None:
+        """
+        Insert image at current position.
+
+        Args:
+            file_path: Path to the image file
+            width: Display width (0 = auto from image)
+            height: Display height (0 = auto from image)
+
+        Returns:
+            Image object or None if failed
+        """
+        import os
+        from pathlib import Path
+
+        if not os.path.exists(file_path):
+            return None
+
+        section = self.current_section
+        img_idx = len(section.images) + 1
+        image_id = f"img_{img_idx}"
+        binary_id = f"image{img_idx}"
+
+        # Determine media type
+        ext = Path(file_path).suffix.lower()
+        media_types = {
+            ".png": "image/png",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".bmp": "image/bmp",
+            ".gif": "image/gif",
+        }
+        media_type = media_types.get(ext, "image/png")
+
+        # Try to get image dimensions
+        original_width = width
+        original_height = height
+        try:
+            from PIL import Image as PILImage
+            with PILImage.open(file_path) as img:
+                original_width = img.width
+                original_height = img.height
+        except ImportError:
+            pass  # PIL not available, use provided dimensions
+        except Exception:
+            pass
+
+        # Convert pixels to HWPML units (1 pixel ≈ 75 HWPML units at 96dpi)
+        hwp_width = (width if width else original_width) * 75
+        hwp_height = (height if height else original_height) * 75
+
+        image = Image(
+            id=image_id,
+            file_path=file_path,
+            binary_id=binary_id,
+            width=hwp_width,
+            height=hwp_height,
+            original_width=original_width * 75,
+            original_height=original_height * 75,
+            media_type=media_type,
+        )
+        section.images.append(image)
+        self._modified = True
+        return image
 
     def get_tables(self) -> list[Table]:
         """Get all tables in document."""
