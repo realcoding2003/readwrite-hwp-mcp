@@ -125,3 +125,4 @@ Thumbs.db
 *.hwpx
 !tests/fixtures/*.hwp
 !tests/fixtures/*.hwpx
+*.traineddata

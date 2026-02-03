@@ -1,6 +1,6 @@
 [project]
 name = "hwp-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "MCP server for controlling HWP documents via COM interface"
 authors = [
     {name = "실전코딩", email = "realcoding@example.com"}

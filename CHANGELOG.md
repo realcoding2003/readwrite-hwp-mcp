@@ -5,7 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/ko/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.1] - 2026-02-03
+
+### Added
+
+- HWPX 이미지 삽입 기능
+  - Image 데이터 클래스 추가
+  - HwpxDocument.insert_image() 메서드 구현
+  - HwpxWriter 이미지 임베딩 지원
+- HWPX 테이블 기능
+
+### Fixed
+
+- 기본 서식 저장 오류 수정
 
 ## [0.1.0] - 2026-02-03
 
