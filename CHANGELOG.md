@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-02-03
+
 ### Added
 
 - HWP MCP 서버 MVP 구현 (server)
@@ -27,9 +29,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - HwpxDocument: 메모리 내 문서 표현
   - HwpxReader: HWPX 파일 파싱 (ZIP+XML)
   - HwpxWriter: HWPX 파일 생성 (원자적 쓰기)
-
-### Changed
-
-### Fixed
-
-### Removed
