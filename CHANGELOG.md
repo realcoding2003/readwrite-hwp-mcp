@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 프로젝트 기반 구조 (pyproject.toml, requirements.txt)
 - 유틸리티 모듈 (path_utils, validation)
 - 테스트 프레임워크 설정 (pytest)
+- 하이브리드 백엔드 아키텍처 (backends)
+  - BaseBackend: 공통 인터페이스 추상 클래스
+  - ComBackend: Windows COM 인터페이스 (HWP/HWPX 모두 지원)
+  - HwpxBackend: 크로스 플랫폼 HWPX 직접 처리
+  - 자동 백엔드 감지 및 선택 (factory)
+- HWPX 파일 처리 모듈 (hwpx)
+  - HwpxDocument: 메모리 내 문서 표현
+  - HwpxReader: HWPX 파일 파싱 (ZIP+XML)
+  - HwpxWriter: HWPX 파일 생성 (원자적 쓰기)
 
 ### Changed
 
